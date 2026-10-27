@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://grave0000001"]
+
+[ext_resource type="Script" path="res://scripts/gravestone.gd" id="1_grave"]
+
+[node name="Gravestone" type="Node2D"]
+script = ExtResource("1_grave")

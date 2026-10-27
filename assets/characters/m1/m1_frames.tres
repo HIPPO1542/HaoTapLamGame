@@ -1,0 +1,70 @@
+[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://m1frames001"]
+
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_idle_0.png" id="1_idle0"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_idle_1.png" id="2_idle1"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_run_0.png" id="3_run0"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_run_1.png" id="4_run1"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_jump_0.png" id="5_jump0"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_attack_0.png" id="6_atk0"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_attack_1.png" id="7_atk1"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_attack_2.png" id="8_atk2"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_hurt_0.png" id="9_hurt0"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_hurt_1.png" id="10_hurt1"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_idle0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_idle1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_run0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_run1")
+}],
+"loop": true,
+"name": &"run",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_jump0")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_atk0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_atk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_atk2")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_hurt0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_hurt1")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 6.0
+}]

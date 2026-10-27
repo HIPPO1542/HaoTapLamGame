@@ -1,0 +1,185 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0main000001"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://charpanel000001" path="res://scenes/ui/character_stats_panel.tscn" id="2_panel"]
+[ext_resource type="PackedScene" uid="uid://hud0000000001" path="res://scenes/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://deathpanel001" path="res://scenes/ui/death_respawn_panel.tscn" id="4_dpanel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal"]
+bg_color = Color(0.08, 0.08, 0.1, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.25, 0.25, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 24.0
+content_margin_top = 20.0
+content_margin_right = 24.0
+content_margin_bottom = 20.0
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="WorldView" type="Node2D" parent="."]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.109804, 0.12549, 0.156863, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/CenterContainer"]
+custom_minimum_size = Vector2(720, 520)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="UI/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "MA PHÁP HUYỄN GIỚI 2D — PROTOTYPE v0.1"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="UI/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+text = "Server Authoritative | 8 Slime | Phím 1 Đánh thường | Menu K Nâng Điểm | Lưu Server"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="UI/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Trạng thái: Sẵn sàng."
+horizontal_alignment = 1
+
+[node name="InfoLabel" type="Label" parent="UI/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+text = "Khởi chạy 2 tiến trình độc lập: --server (headless) và --client (có cửa sổ)"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="BtnPlayAll" type="Button" parent="UI/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(210, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "▶ CHƠI NGAY (Server + Client)"
+
+[node name="BtnServer" type="Button" parent="UI/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 44)
+layout_mode = 2
+text = "Chạy Server"
+
+[node name="BtnClient" type="Button" parent="UI/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 44)
+layout_mode = 2
+text = "Chạy Client"
+
+[node name="BtnResetSave" type="Button" parent="UI/CenterContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(120, 44)
+layout_mode = 2
+text = "Reset Save"
+
+[node name="LogLabel" type="Label" parent="UI/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Nhật ký hệ thống (System Logs):"
+
+[node name="LogBox" type="RichTextLabel" parent="UI/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 170)
+layout_mode = 2
+bbcode_enabled = true
+scroll_following = true
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+visible = false
+
+[node name="CharacterStatsPanel" parent="." instance=ExtResource("2_panel")]
+visible = false
+
+[node name="DeathRespawnPanel" parent="." instance=ExtResource("4_dpanel")]
+visible = false
+
+[node name="DisconnectModal" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="Center" type="CenterContainer" parent="DisconnectModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Box" type="PanelContainer" parent="DisconnectModal/Center"]
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal")
+
+[node name="VBox" type="VBoxContainer" parent="DisconnectModal/Center/Box"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Title" type="Label" parent="DisconnectModal/Center/Box/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+text = "MẤT KẾT NỐI VỚI SERVER!"
+horizontal_alignment = 1
+
+[node name="Desc" type="Label" parent="DisconnectModal/Center/Box/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Tiến trình điều khiển đã dừng lại. Dữ liệu đã xác nhận được bảo toàn an toàn trên Server."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BtnDismiss" type="Button" parent="DisconnectModal/Center/Box/VBox"]
+custom_minimum_size = Vector2(140, 38)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Về Màn Hình Chính"

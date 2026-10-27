@@ -1,59 +1,97 @@
-[gd_scene load_steps=5 format=3 uid="uid://charpanel000001"]
+[gd_scene load_steps=7 format=3 uid="uid://charpanel000001"]
 
 [ext_resource type="Script" path="res://scripts/character_stats_panel.gd" id="1_panel"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
-bg_color = Color(0.08, 0.1, 0.14, 0.95)
+bg_color = Color(0.06, 0.08, 0.12, 0.96)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.85, 0.7, 0.25, 1)
+border_color = Color(0.85, 0.68, 0.22, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-shadow_size = 10
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_box"]
-bg_color = Color(0.14, 0.17, 0.22, 0.9)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_res_card"]
+bg_color = Color(0.1, 0.13, 0.18, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.3, 0.4, 0.8)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-content_margin_left = 12.0
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat_row"]
+bg_color = Color(0.09, 0.11, 0.16, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.25, 0.32, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 14.0
 content_margin_top = 8.0
-content_margin_right = 12.0
+content_margin_right = 14.0
 content_margin_bottom = 8.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
-bg_color = Color(0.18, 0.55, 0.32, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_upgrade"]
+bg_color = Color(0.15, 0.55, 0.28, 1)
+border_width_top = 1
+border_color = Color(0.4, 0.8, 0.5, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
-[node name="CharacterStatsPanel" type="Control"]
-layout_mode = 3
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
+bg_color = Color(0.18, 0.2, 0.24, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.3, 0.35, 0.7)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="CharacterStatsPanel" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_panel")
+
+[node name="Backdrop" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_panel")
+color = Color(0, 0, 0, 0.45)
 
 [node name="Panel" type="Panel" parent="."]
-custom_minimum_size = Vector2(480, 520)
-layout_mode = 1
+custom_minimum_size = Vector2(500, 560)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -260.0
-offset_right = 240.0
-offset_bottom = 260.0
+offset_left = -250.0
+offset_top = -280.0
+offset_right = 250.0
+offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
@@ -63,13 +101,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 15.0
-offset_right = -20.0
-offset_bottom = -15.0
+offset_left = 22.0
+offset_top = 16.0
+offset_right = -22.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="Header" type="HBoxContainer" parent="Panel/VBox"]
 layout_mode = 2
@@ -77,164 +115,238 @@ layout_mode = 2
 [node name="Title" type="Label" parent="Panel/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
-theme_override_font_sizes/font_size = 18
-text = "BẢNG NHÂN VẬT — M1 TÓC ĐEN"
+theme_override_colors/font_color = Color(0.96, 0.84, 0.36, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 17
+text = "⚔ BẢNG CHỈ SỐ NHÂN VẬT — M1"
 
 [node name="BtnClose" type="Button" parent="Panel/VBox/Header"]
-custom_minimum_size = Vector2(30, 30)
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.35, 0.35, 1)
+theme_override_font_sizes/font_size = 14
 text = "✕"
 
-[node name="ResourceBox" type="PanelContainer" parent="Panel/VBox"]
+[node name="HSeparator1" type="HSeparator" parent="Panel/VBox"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_box")
 
-[node name="ResGrid" type="GridContainer" parent="Panel/VBox/ResourceBox"]
+[node name="ResourceBox" type="HBoxContainer" parent="Panel/VBox"]
 layout_mode = 2
-theme_override_constants/h_separation = 20
-theme_override_constants/v_separation = 6
-columns = 2
+theme_override_constants/separation = 12
 
-[node name="LabelTLTitle" type="Label" parent="Panel/VBox/ResourceBox/ResGrid"]
+[node name="TLCard" type="PanelContainer" parent="Panel/VBox/ResourceBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.75, 0.2, 1)
-text = "Tinh Lực tích lũy:"
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_res_card")
 
-[node name="LabelTLValue" type="Label" parent="Panel/VBox/ResourceBox/ResGrid"]
+[node name="VBoxTL" type="VBoxContainer" parent="Panel/VBox/ResourceBox/TLCard"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_constants/separation = 2
+
+[node name="TitleTL" type="Label" parent="Panel/VBox/ResourceBox/TLCard/VBoxTL"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "⚡ Tinh Lực (TL):"
+
+[node name="LabelTLValue" type="Label" parent="Panel/VBox/ResourceBox/TLCard/VBoxTL"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.32, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_font_sizes/font_size = 18
 text = "0"
 
-[node name="LabelTNTitle" type="Label" parent="Panel/VBox/ResourceBox/ResGrid"]
+[node name="SubTL" type="Label" parent="Panel/VBox/ResourceBox/TLCard/VBoxTL"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.8, 1, 1)
-text = "Tinh Năng khả dụng:"
+theme_override_colors/font_color = Color(0.6, 0.6, 0.65, 1)
+theme_override_font_sizes/font_size = 10
+text = "Điểm tích lũy (không trừ)"
 
-[node name="LabelTNValue" type="Label" parent="Panel/VBox/ResourceBox/ResGrid"]
+[node name="TNCard" type="PanelContainer" parent="Panel/VBox/ResourceBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_res_card")
+
+[node name="VBoxTN" type="VBoxContainer" parent="Panel/VBox/ResourceBox/TNCard"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TitleTN" type="Label" parent="Panel/VBox/ResourceBox/TNCard/VBoxTN"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "✦ Tinh Năng (TN):"
+
+[node name="LabelTNValue" type="Label" parent="Panel/VBox/ResourceBox/TNCard/VBoxTN"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.28, 0.92, 0.55, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_font_sizes/font_size = 18
 text = "0"
+
+[node name="SubTN" type="Label" parent="Panel/VBox/ResourceBox/TNCard/VBoxTN"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.6, 0.65, 1)
+theme_override_font_sizes/font_size = 10
+text = "Dùng nâng 4 chỉ số dưới"
+
+[node name="ResGrid" type="Control" parent="Panel/VBox/ResourceBox"]
+visible = false
+layout_mode = 2
 
 [node name="StatsContainer" type="VBoxContainer" parent="Panel/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="HPSection" type="PanelContainer" parent="Panel/VBox/StatsContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_box")
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_row")
 
 [node name="HBox" type="HBoxContainer" parent="Panel/VBox/StatsContainer/HPSection"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="VBox" type="VBoxContainer" parent="Panel/VBox/StatsContainer/HPSection/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 2
 
 [node name="StatName" type="Label" parent="Panel/VBox/StatsContainer/HPSection/HBox/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_colors/font_color = Color(1, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 13
 text = "Máu tối đa (HP): 100  (+20)"
 
 [node name="StatCost" type="Label" parent="Panel/VBox/StatsContainer/HPSection/HBox/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.75, 0.78, 0.85, 1)
+theme_override_font_sizes/font_size = 11
 text = "Giá: 100 Tinh Năng  (Lần 1)"
 
 [node name="BtnUpHP" type="Button" parent="Panel/VBox/StatsContainer/HPSection/HBox"]
-custom_minimum_size = Vector2(90, 36)
+custom_minimum_size = Vector2(85, 34)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_upgrade")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
 text = "+ Nâng"
 
 [node name="KISection" type="PanelContainer" parent="Panel/VBox/StatsContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_box")
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_row")
 
 [node name="HBox" type="HBoxContainer" parent="Panel/VBox/StatsContainer/KISection"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="VBox" type="VBoxContainer" parent="Panel/VBox/StatsContainer/KISection/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 2
 
 [node name="StatName" type="Label" parent="Panel/VBox/StatsContainer/KISection/HBox/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.7, 1, 1)
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 13
 text = "Năng lượng (KI): 100  (+20)"
 
 [node name="StatCost" type="Label" parent="Panel/VBox/StatsContainer/KISection/HBox/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.75, 0.78, 0.85, 1)
+theme_override_font_sizes/font_size = 11
 text = "Giá: 100 Tinh Năng  (Lần 1)"
 
 [node name="BtnUpKI" type="Button" parent="Panel/VBox/StatsContainer/KISection/HBox"]
-custom_minimum_size = Vector2(90, 36)
+custom_minimum_size = Vector2(85, 34)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_upgrade")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
 text = "+ Nâng"
 
 [node name="AtkSection" type="PanelContainer" parent="Panel/VBox/StatsContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_box")
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_row")
 
 [node name="HBox" type="HBoxContainer" parent="Panel/VBox/StatsContainer/AtkSection"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="VBox" type="VBoxContainer" parent="Panel/VBox/StatsContainer/AtkSection/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 2
 
 [node name="StatName" type="Label" parent="Panel/VBox/StatsContainer/AtkSection/HBox/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.6, 0.2, 1)
+theme_override_colors/font_color = Color(1, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 13
 text = "Công Lực: 10  (+1)"
 
 [node name="StatCost" type="Label" parent="Panel/VBox/StatsContainer/AtkSection/HBox/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.75, 0.78, 0.85, 1)
+theme_override_font_sizes/font_size = 11
 text = "Giá: 200 Tinh Năng  (Lần 1)"
 
 [node name="BtnUpAtk" type="Button" parent="Panel/VBox/StatsContainer/AtkSection/HBox"]
-custom_minimum_size = Vector2(90, 36)
+custom_minimum_size = Vector2(85, 34)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_upgrade")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
 text = "+ Nâng"
 
 [node name="ArmSection" type="PanelContainer" parent="Panel/VBox/StatsContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_box")
+theme_override_styles/panel = SubResource("StyleBoxFlat_stat_row")
 
 [node name="HBox" type="HBoxContainer" parent="Panel/VBox/StatsContainer/ArmSection"]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="VBox" type="VBoxContainer" parent="Panel/VBox/StatsContainer/ArmSection/HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 2
 
 [node name="StatName" type="Label" parent="Panel/VBox/StatsContainer/ArmSection/HBox/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5, 0.9, 0.5, 1)
+theme_override_colors/font_color = Color(0.95, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 13
 text = "Giáp: 0  (+1)"
 
 [node name="StatCost" type="Label" parent="Panel/VBox/StatsContainer/ArmSection/HBox/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.75, 0.78, 0.85, 1)
+theme_override_font_sizes/font_size = 11
 text = "Giá: 500 Tinh Năng  (Lần 1)"
 
 [node name="BtnUpArm" type="Button" parent="Panel/VBox/StatsContainer/ArmSection/HBox"]
-custom_minimum_size = Vector2(90, 36)
+custom_minimum_size = Vector2(85, 34)
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_upgrade")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
 text = "+ Nâng"
 
 [node name="StatusMsg" type="Label" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-text = "Bấm phím K hoặc nút ✕ để đóng bảng."
+theme_override_colors/font_color = Color(0.65, 0.85, 0.65, 1)
+theme_override_font_sizes/font_size = 11
+text = "Nâng điểm trực tiếp mọi nơi không cần NPC."
+horizontal_alignment = 1
+
+[node name="TipLabel" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.6, 1)
+theme_override_font_sizes/font_size = 10
+text = "Mẹo: Nhấn [Phím K] hoặc [Esc] để đóng bảng nhanh."
 horizontal_alignment = 1

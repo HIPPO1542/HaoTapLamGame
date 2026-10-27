@@ -1,12 +1,15 @@
-extends Control
+extends CanvasLayer
+class_name CharacterStatsPanel
 
 # CharacterStatsPanel: Bảng Menu -> Nhân vật (phím K)
 # Nâng 4 chỉ số trực tiếp bằng Tinh Năng, không cần NPC Đạo Sư
 
+const GameConfig = preload("res://scripts/game_config.gd")
+
 @onready var btn_close: Button = $Panel/VBox/Header/BtnClose
 
-@onready var label_tl: Label = $Panel/VBox/ResourceBox/ResGrid/LabelTLValue
-@onready var label_tn: Label = $Panel/VBox/ResourceBox/ResGrid/LabelTNValue
+@onready var label_tl: Label = $Panel/VBox/ResourceBox/TLCard/VBoxTL/LabelTLValue
+@onready var label_tn: Label = $Panel/VBox/ResourceBox/TNCard/VBoxTN/LabelTNValue
 
 @onready var label_hp_name: Label = $Panel/VBox/StatsContainer/HPSection/HBox/VBox/StatName
 @onready var label_hp_cost: Label = $Panel/VBox/StatsContainer/HPSection/HBox/VBox/StatCost
@@ -44,14 +47,22 @@ var current_counts: Dictionary = {
 }
 
 func _ready() -> void:
-	btn_close.pressed.connect(_close_panel)
-	btn_up_hp.pressed.connect(func(): _request_upgrade("hp"))
-	btn_up_ki.pressed.connect(func(): _request_upgrade("ki"))
-	btn_up_atk.pressed.connect(func(): _request_upgrade("attack"))
-	btn_up_arm.pressed.connect(func(): _request_upgrade("armor"))
+	visible = false
+	if btn_close:
+		btn_close.pressed.connect(_close_panel)
+	if btn_up_hp:
+		btn_up_hp.pressed.connect(func(): _request_upgrade("hp"))
+	if btn_up_ki:
+		btn_up_ki.pressed.connect(func(): _request_upgrade("ki"))
+	if btn_up_atk:
+		btn_up_atk.pressed.connect(func(): _request_upgrade("attack"))
+	if btn_up_arm:
+		btn_up_arm.pressed.connect(func(): _request_upgrade("armor"))
 
-	NetworkBridge.progression_received.connect(_on_progression_received)
-	NetworkBridge.upgrade_result_received.connect(_on_upgrade_result)
+	var nb = get_node_or_null("/root/NetworkBridge")
+	if nb:
+		nb.progression_received.connect(_on_progression_received)
+		nb.upgrade_result_received.connect(_on_upgrade_result)
 	
 	_update_ui()
 
@@ -90,7 +101,10 @@ func _request_upgrade(stat_id: String) -> void:
 	var req_id = "upg_%s_%d_%d" % [stat_id, multiplayer.get_unique_id(), Time.get_ticks_msec()]
 	status_msg.text = "Đang gửi yêu cầu nâng %s lên Server..." % stat_id.to_upper()
 	status_msg.modulate = Color.YELLOW
-	NetworkBridge.request_upgrade.rpc_id(1, stat_id, req_id)
+	
+	var nb = get_node_or_null("/root/NetworkBridge")
+	if nb:
+		nb.request_upgrade.rpc_id(1, stat_id, req_id)
 
 func _on_progression_received(tinh_luc: int, tinh_nang: int, stats: Dictionary, upgrade_counts: Dictionary) -> void:
 	current_tl = tinh_luc
@@ -101,42 +115,77 @@ func _on_progression_received(tinh_luc: int, tinh_nang: int, stats: Dictionary, 
 
 func _on_upgrade_result(_req_id: String, success: bool, reason: String, _state: Dictionary) -> void:
 	status_msg.text = reason
-	status_msg.modulate = Color.GREEN if success else Color(1.0, 0.4, 0.4, 1.0)
+	status_msg.modulate = Color(0.3, 0.9, 0.5, 1.0) if success else Color(1.0, 0.4, 0.4, 1.0)
+
+func format_number(val: int) -> String:
+	var s = str(absi(val))
+	var res = ""
+	var count = 0
+	for i in range(s.length() - 1, -1, -1):
+		res = s[i] + res
+		count += 1
+		if count % 3 == 0 and i > 0:
+			res = "," + res
+	if val < 0:
+		res = "-" + res
+	return res
 
 func _update_ui() -> void:
 	if not is_inside_tree():
 		return
-	label_tl.text = str(current_tl)
-	label_tn.text = str(current_tn)
+	if label_tl:
+		label_tl.text = format_number(current_tl)
+	if label_tn:
+		label_tn.text = format_number(current_tn)
 
-	# 1. HP
+	# 1. HP (+20 HP)
 	var hp_max = current_stats.get("hp_max", 100)
 	var hp_count = current_counts.get("hp", 0)
 	var hp_cost = GameConfig.get_upgrade_cost("hp", hp_count)
-	label_hp_name.text = "Máu tối đa (HP): %d  (+20)" % hp_max
-	label_hp_cost.text = "Giá: %d Tinh Năng  (Lần %d)" % [hp_cost, hp_count + 1]
-	btn_up_hp.disabled = (current_tn < hp_cost)
+	if label_hp_name:
+		label_hp_name.text = "Máu tối đa (HP): %s  (+20)" % format_number(hp_max)
+	if label_hp_cost:
+		label_hp_cost.text = "Giá: %s Tinh Năng  (Lần %d)" % [format_number(hp_cost), hp_count + 1]
+		label_hp_cost.modulate = Color(1.0, 0.4, 0.4, 1.0) if (current_tn < hp_cost) else Color(1.0, 1.0, 1.0, 1.0)
+	if btn_up_hp:
+		btn_up_hp.disabled = (current_tn < hp_cost)
+		btn_up_hp.text = "Thiếu TN" if (current_tn < hp_cost) else "+ Nâng"
 
-	# 2. KI
+	# 2. KI (+20 KI)
 	var ki_max = current_stats.get("ki_max", 100)
 	var ki_count = current_counts.get("ki", 0)
 	var ki_cost = GameConfig.get_upgrade_cost("ki", ki_count)
-	label_ki_name.text = "Năng lượng (KI): %d  (+20)" % ki_max
-	label_ki_cost.text = "Giá: %d Tinh Năng  (Lần %d)" % [ki_cost, ki_count + 1]
-	btn_up_ki.disabled = (current_tn < ki_cost)
+	if label_ki_name:
+		label_ki_name.text = "Năng lượng (KI): %s  (+20)" % format_number(ki_max)
+	if label_ki_cost:
+		label_ki_cost.text = "Giá: %s Tinh Năng  (Lần %d)" % [format_number(ki_cost), ki_count + 1]
+		label_ki_cost.modulate = Color(1.0, 0.4, 0.4, 1.0) if (current_tn < ki_cost) else Color(1.0, 1.0, 1.0, 1.0)
+	if btn_up_ki:
+		btn_up_ki.disabled = (current_tn < ki_cost)
+		btn_up_ki.text = "Thiếu TN" if (current_tn < ki_cost) else "+ Nâng"
 
-	# 3. Công Lực
+	# 3. Công Lực (+1 Dmg)
 	var atk = current_stats.get("attack", 10)
 	var atk_count = current_counts.get("attack", 0)
 	var atk_cost = GameConfig.get_upgrade_cost("attack", atk_count)
-	label_atk_name.text = "Công Lực: %d  (+1)" % atk
-	label_atk_cost.text = "Giá: %d Tinh Năng  (Lần %d)" % [atk_cost, atk_count + 1]
-	btn_up_atk.disabled = (current_tn < atk_cost)
+	if label_atk_name:
+		label_atk_name.text = "Công Lực: %s  (+1)" % format_number(atk)
+	if label_atk_cost:
+		label_atk_cost.text = "Giá: %s Tinh Năng  (Lần %d)" % [format_number(atk_cost), atk_count + 1]
+		label_atk_cost.modulate = Color(1.0, 0.4, 0.4, 1.0) if (current_tn < atk_cost) else Color(1.0, 1.0, 1.0, 1.0)
+	if btn_up_atk:
+		btn_up_atk.disabled = (current_tn < atk_cost)
+		btn_up_atk.text = "Thiếu TN" if (current_tn < atk_cost) else "+ Nâng"
 
-	# 4. Giáp
+	# 4. Giáp (+1 Armor)
 	var arm = current_stats.get("armor", 0)
 	var arm_count = current_counts.get("armor", 0)
 	var arm_cost = GameConfig.get_upgrade_cost("armor", arm_count)
-	label_arm_name.text = "Giáp: %d  (+1)" % arm
-	label_arm_cost.text = "Giá: %d Tinh Năng  (Lần %d)" % [arm_cost, arm_count + 1]
-	btn_up_arm.disabled = (current_tn < arm_cost)
+	if label_arm_name:
+		label_arm_name.text = "Giáp: %s  (+1)" % format_number(arm)
+	if label_arm_cost:
+		label_arm_cost.text = "Giá: %s Tinh Năng  (Lần %d)" % [format_number(arm_cost), arm_count + 1]
+		label_arm_cost.modulate = Color(1.0, 0.4, 0.4, 1.0) if (current_tn < arm_cost) else Color(1.0, 1.0, 1.0, 1.0)
+	if btn_up_arm:
+		btn_up_arm.disabled = (current_tn < arm_cost)
+		btn_up_arm.text = "Thiếu TN" if (current_tn < arm_cost) else "+ Nâng"

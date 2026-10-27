@@ -11,8 +11,8 @@ extends Control
 @onready var btn_reset_save: Button = $UI/CenterContainer/VBoxContainer/HBoxContainer/BtnResetSave
 
 @onready var hud: CanvasLayer = $HUD
-@onready var char_stats_panel: Control = $CharacterStatsPanel
-@onready var death_panel: Control = $DeathRespawnPanel
+@onready var char_stats_panel: CanvasLayer = $CharacterStatsPanel
+@onready var death_panel: CanvasLayer = $DeathRespawnPanel
 @onready var disconnect_modal: Control = $DisconnectModal
 @onready var btn_dismiss_modal: Button = $DisconnectModal/Center/Box/VBox/BtnDismiss
 

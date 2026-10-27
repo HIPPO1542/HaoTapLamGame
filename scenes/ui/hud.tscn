@@ -1,100 +1,108 @@
-[gd_scene load_steps=10 format=3 uid="uid://hud0000000001"]
+[gd_scene load_steps=12 format=3 uid="uid://hud0000000001"]
 
 [ext_resource type="Script" path="res://scripts/hud_controller.gd" id="1_hud"]
-[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_idle_0.png" id="2_avatar"]
+[ext_resource type="Texture2D" path="res://assets/characters/m1/m1_avatar.png" id="2_avatar"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_punch.png" id="3_punch"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_lock.png" id="4_lock"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar_bg"]
-bg_color = Color(0.12, 0.15, 0.2, 0.9)
+bg_color = Color(0.06, 0.08, 0.12, 0.95)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.85, 0.7, 0.25, 1)
+border_color = Color(0.85, 0.68, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.1, 0.12, 0.16, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.3, 0.38, 0.8)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
-bg_color = Color(0.15, 0.15, 0.18, 0.85)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
-bg_color = Color(0.85, 0.18, 0.18, 1)
+bg_color = Color(0.86, 0.2, 0.2, 1)
+border_width_top = 1
+border_color = Color(1, 0.45, 0.45, 0.8)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ki_fill"]
-bg_color = Color(0.2, 0.45, 0.9, 1)
+bg_color = Color(0.16, 0.48, 0.9, 1)
+border_width_top = 1
+border_color = Color(0.4, 0.75, 1, 0.8)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_active"]
-bg_color = Color(0.15, 0.2, 0.28, 0.9)
+bg_color = Color(0.1, 0.16, 0.25, 0.92)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(1, 0.85, 0.2, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+border_color = Color(1, 0.82, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(1, 0.82, 0.25, 0.2)
+shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_locked"]
-bg_color = Color(0.12, 0.12, 0.14, 0.8)
+bg_color = Color(0.08, 0.09, 0.12, 0.85)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.3, 0.3, 0.35, 0.7)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+border_color = Color(0.24, 0.26, 0.32, 0.7)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cd_overlay"]
-bg_color = Color(0, 0, 0, 0.6)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+bg_color = Color(0.02, 0.02, 0.04, 0.65)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="HUD" type="CanvasLayer"]
+layer = 1
 script = ExtResource("1_hud")
 
 [node name="PlayerStatusBox" type="HBoxContainer" parent="."]
 offset_left = 16.0
 offset_top = 16.0
-offset_right = 320.0
-offset_bottom = 84.0
-theme_override_constants/separation = 10
+offset_right = 360.0
+offset_bottom = 96.0
+mouse_filter = 2
+theme_override_constants/separation = 12
 
-[node name="AvatarFrame" type="Panel" parent="PlayerStatusBox"]
-custom_minimum_size = Vector2(64, 64)
+[node name="AvatarFrame" type="PanelContainer" parent="PlayerStatusBox"]
+custom_minimum_size = Vector2(70, 70)
 layout_mode = 2
+size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_bg")
 
 [node name="AvatarTexture" type="TextureRect" parent="PlayerStatusBox/AvatarFrame"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -22.0
-offset_top = -28.0
-offset_right = 22.0
-offset_bottom = 28.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
 texture = ExtResource("2_avatar")
 expand_mode = 1
 stretch_mode = 5
@@ -102,10 +110,20 @@ stretch_mode = 5
 [node name="BarsContainer" type="VBoxContainer" parent="PlayerStatusBox"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme_override_constants/separation = 4
 
+[node name="NameBadge" type="Label" parent="PlayerStatusBox/BarsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.82, 0.35, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 13
+text = "M1 (Ma Pháp Sư)"
+
 [node name="HPBar" type="ProgressBar" parent="PlayerStatusBox/BarsContainer"]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
@@ -119,13 +137,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
 text = "HP: 100 / 100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="KIBar" type="ProgressBar" parent="PlayerStatusBox/BarsContainer"]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ki_fill")
@@ -139,32 +161,60 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
 text = "KI: 100 / 100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PointsLabel" type="Label" parent="PlayerStatusBox/BarsContainer"]
+[node name="PointsContainer" type="HBoxContainer" parent="PlayerStatusBox/BarsContainer"]
 layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LabelTL" type="Label" parent="PlayerStatusBox/BarsContainer/PointsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.86, 0.28, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 12
+text = "⚡ Tinh Lực: 0"
+
+[node name="LabelTN" type="Label" parent="PlayerStatusBox/BarsContainer/PointsContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.24, 0.85, 0.52, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 12
+text = "✦ Tinh Năng: 0"
+
+[node name="PointsLabel" type="Label" parent="PlayerStatusBox/BarsContainer"]
+visible = false
+layout_mode = 2
 text = "TL: 0  |  TN: 0"
 
 [node name="TopRightBox" type="HBoxContainer" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -340.0
+offset_left = -220.0
 offset_top = 16.0
 offset_right = -16.0
-offset_bottom = 50.0
+offset_bottom = 54.0
 grow_horizontal = 0
 theme_override_constants/separation = 10
 alignment = 2
 
 [node name="BtnMenuK" type="Button" parent="TopRightBox"]
-custom_minimum_size = Vector2(160, 34)
+custom_minimum_size = Vector2(170, 36)
 layout_mode = 2
-text = "Nhân Vật (Phím K)"
+theme_override_colors/font_color = Color(0.96, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 13
+text = "⚔ Nhân Vật [Phím K]"
 
 [node name="BottomSkillBar" type="HBoxContainer" parent="."]
 anchors_preset = 7
@@ -172,45 +222,69 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -220.0
-offset_top = -68.0
-offset_right = 220.0
+offset_left = -230.0
+offset_top = -74.0
+offset_right = 230.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Slot1" type="Panel" parent="BottomSkillBar"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(52, 54)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot_active")
 
-[node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot1"]
-layout_mode = 1
-offset_left = 4.0
-offset_top = 2.0
-offset_right = 24.0
-offset_bottom = 18.0
-theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
-theme_override_font_sizes/font_size = 12
-text = "1"
-
-[node name="SkillName" type="Label" parent="BottomSkillBar/Slot1"]
+[node name="Icon" type="TextureRect" parent="BottomSkillBar/Slot1"]
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -10.0
-offset_right = 20.0
-offset_bottom = 10.0
+offset_left = -15.0
+offset_top = -13.0
+offset_right = 15.0
+offset_bottom = 17.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("3_punch")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot1"]
+layout_mode = 1
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 20.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
 theme_override_font_sizes/font_size = 11
-text = "Đánh"
+text = "1"
+
+[node name="SkillName" type="Label" parent="BottomSkillBar/Slot1"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -22.0
+offset_top = -14.0
+offset_right = 22.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_font_sizes/font_size = 9
+text = "Đấm Cơ Bản"
 horizontal_alignment = 1
 
 [node name="CDOverlay" type="Panel" parent="BottomSkillBar/Slot1"]
@@ -223,233 +297,253 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_cd_overlay")
 
+[node name="CDLabel" type="Label" parent="BottomSkillBar/Slot1/CDOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -10.0
+offset_right = 16.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_font_sizes/font_size = 12
+text = "0.7"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Slot2" type="Panel" parent="BottomSkillBar"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(52, 54)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot_locked")
 
 [node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot2"]
 layout_mode = 1
 offset_left = 4.0
-offset_top = 2.0
-offset_right = 24.0
-offset_bottom = 18.0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
-theme_override_font_sizes/font_size = 12
+offset_top = 1.0
+offset_right = 20.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.55, 0.58, 0.65, 1)
+theme_override_font_sizes/font_size = 11
 text = "2"
 
-[node name="LockLabel" type="Label" parent="BottomSkillBar/Slot2"]
+[node name="LockIcon" type="TextureRect" parent="BottomSkillBar/Slot2"]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -8.0
-offset_right = 15.0
-offset_bottom = 8.0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_font_sizes/font_size = 10
-text = "Khóa"
-horizontal_alignment = 1
+texture = ExtResource("4_lock")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Slot3" type="Panel" parent="BottomSkillBar"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(52, 54)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot_locked")
 
 [node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot3"]
 layout_mode = 1
 offset_left = 4.0
-offset_top = 2.0
-offset_right = 24.0
-offset_bottom = 18.0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
-theme_override_font_sizes/font_size = 12
+offset_top = 1.0
+offset_right = 20.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.55, 0.58, 0.65, 1)
+theme_override_font_sizes/font_size = 11
 text = "3"
 
-[node name="LockLabel" type="Label" parent="BottomSkillBar/Slot3"]
+[node name="LockIcon" type="TextureRect" parent="BottomSkillBar/Slot3"]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -8.0
-offset_right = 15.0
-offset_bottom = 8.0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_font_sizes/font_size = 10
-text = "Khóa"
-horizontal_alignment = 1
+texture = ExtResource("4_lock")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Slot4" type="Panel" parent="BottomSkillBar"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(52, 54)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot_locked")
 
 [node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot4"]
 layout_mode = 1
 offset_left = 4.0
-offset_top = 2.0
-offset_right = 24.0
-offset_bottom = 18.0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
-theme_override_font_sizes/font_size = 12
+offset_top = 1.0
+offset_right = 20.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.55, 0.58, 0.65, 1)
+theme_override_font_sizes/font_size = 11
 text = "4"
 
-[node name="LockLabel" type="Label" parent="BottomSkillBar/Slot4"]
+[node name="LockIcon" type="TextureRect" parent="BottomSkillBar/Slot4"]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -8.0
-offset_right = 15.0
-offset_bottom = 8.0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_font_sizes/font_size = 10
-text = "Khóa"
-horizontal_alignment = 1
+texture = ExtResource("4_lock")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Slot5" type="Panel" parent="BottomSkillBar"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(52, 54)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot_locked")
 
 [node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot5"]
 layout_mode = 1
 offset_left = 4.0
-offset_top = 2.0
-offset_right = 24.0
-offset_bottom = 18.0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
-theme_override_font_sizes/font_size = 12
+offset_top = 1.0
+offset_right = 20.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.55, 0.58, 0.65, 1)
+theme_override_font_sizes/font_size = 11
 text = "5"
 
-[node name="LockLabel" type="Label" parent="BottomSkillBar/Slot5"]
+[node name="LockIcon" type="TextureRect" parent="BottomSkillBar/Slot5"]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -8.0
-offset_right = 15.0
-offset_bottom = 8.0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_font_sizes/font_size = 10
-text = "Khóa"
-horizontal_alignment = 1
+texture = ExtResource("4_lock")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Slot6" type="Panel" parent="BottomSkillBar"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(52, 54)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot_locked")
 
 [node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot6"]
 layout_mode = 1
 offset_left = 4.0
-offset_top = 2.0
-offset_right = 24.0
-offset_bottom = 18.0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
-theme_override_font_sizes/font_size = 12
+offset_top = 1.0
+offset_right = 20.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.55, 0.58, 0.65, 1)
+theme_override_font_sizes/font_size = 11
 text = "6"
 
-[node name="LockLabel" type="Label" parent="BottomSkillBar/Slot6"]
+[node name="LockIcon" type="TextureRect" parent="BottomSkillBar/Slot6"]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -8.0
-offset_right = 15.0
-offset_bottom = 8.0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_font_sizes/font_size = 10
-text = "Khóa"
-horizontal_alignment = 1
+texture = ExtResource("4_lock")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Slot7" type="Panel" parent="BottomSkillBar"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(52, 54)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot_locked")
 
 [node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot7"]
 layout_mode = 1
 offset_left = 4.0
-offset_top = 2.0
-offset_right = 24.0
-offset_bottom = 18.0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
-theme_override_font_sizes/font_size = 12
+offset_top = 1.0
+offset_right = 20.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.55, 0.58, 0.65, 1)
+theme_override_font_sizes/font_size = 11
 text = "7"
 
-[node name="LockLabel" type="Label" parent="BottomSkillBar/Slot7"]
+[node name="LockIcon" type="TextureRect" parent="BottomSkillBar/Slot7"]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -8.0
-offset_right = 15.0
-offset_bottom = 8.0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_font_sizes/font_size = 10
-text = "Khóa"
-horizontal_alignment = 1
+texture = ExtResource("4_lock")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Slot8" type="Panel" parent="BottomSkillBar"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(52, 54)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot_locked")
 
 [node name="KeyLabel" type="Label" parent="BottomSkillBar/Slot8"]
 layout_mode = 1
 offset_left = 4.0
-offset_top = 2.0
-offset_right = 24.0
-offset_bottom = 18.0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
-theme_override_font_sizes/font_size = 12
+offset_top = 1.0
+offset_right = 20.0
+offset_bottom = 17.0
+theme_override_colors/font_color = Color(0.55, 0.58, 0.65, 1)
+theme_override_font_sizes/font_size = 11
 text = "8"
 
-[node name="LockLabel" type="Label" parent="BottomSkillBar/Slot8"]
+[node name="LockIcon" type="TextureRect" parent="BottomSkillBar/Slot8"]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -15.0
-offset_top = -8.0
-offset_right = 15.0
-offset_bottom = 8.0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 11.0
+offset_bottom = 11.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_font_sizes/font_size = 10
-text = "Khóa"
-horizontal_alignment = 1
+texture = ExtResource("4_lock")
+expand_mode = 1
+stretch_mode = 5

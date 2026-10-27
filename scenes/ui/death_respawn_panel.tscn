@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://deathpanel001"]
+[gd_scene load_steps=5 format=3 uid="uid://deathpanel001"]
 
 [ext_resource type="Script" path="res://scripts/death_respawn_panel.gd" id="1_dpanel"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_death"]
-bg_color = Color(0.06, 0.06, 0.08, 0.94)
+bg_color = Color(0.06, 0.07, 0.1, 0.96)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -13,31 +13,47 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-content_margin_left = 28.0
+content_margin_left = 32.0
 content_margin_top = 24.0
-content_margin_right = 28.0
+content_margin_right = 32.0
 content_margin_bottom = 24.0
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 14
 
-[node name="DeathRespawnPanel" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_home"]
+bg_color = Color(0.12, 0.52, 0.38, 1)
+border_width_top = 1
+border_color = Color(0.3, 0.8, 0.6, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_locked"]
+bg_color = Color(0.16, 0.18, 0.22, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.3, 0.36, 0.7)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="DeathRespawnPanel" type="CanvasLayer"]
+layer = 10
 script = ExtResource("1_dpanel")
 
 [node name="Backdrop" type="ColorRect" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.72)
+color = Color(0, 0, 0, 0.7)
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -45,7 +61,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(440, 260)
+custom_minimum_size = Vector2(460, 270)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_death")
 
@@ -56,15 +72,18 @@ alignment = 1
 
 [node name="Title" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.25, 0.25, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(1, 0.28, 0.28, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 22
 text = "Bạn đã tử vong"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.8, 0.82, 0.88, 1)
+theme_override_font_sizes/font_size = 13
 text = "Lựa chọn phương thức hồi sinh:"
 horizontal_alignment = 1
 
@@ -74,26 +93,30 @@ layout_mode = 2
 [node name="BtnRespawnHome" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_home")
 text = "Về nhà — Miễn phí"
 
 [node name="BtnRespawnHere" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.6, 0.62, 0.68, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_locked")
 disabled = true
 text = "Hồi sinh tại chỗ — Chưa mở"
 
 [node name="HereNote" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.65, 0.65, 0.7, 1)
+theme_override_font_sizes/font_size = 11
 text = "Cần hệ thống Vàng (phát triển sau)"
 horizontal_alignment = 1
 
 [node name="StatusLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5, 0.9, 0.5, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.35, 0.9, 0.55, 1)
+theme_override_font_sizes/font_size = 11
 text = "Trở về điểm an toàn ở đầu map, phục hồi đầy đủ HP & KI."
 horizontal_alignment = 1

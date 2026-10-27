@@ -1,8 +1,8 @@
-extends Control
+extends CanvasLayer
 class_name DeathRespawnPanel
 
 # DeathRespawnPanel: Giao diện khi người chơi M1 tử vong (DEAD_WAITING_CHOICE)
-# Tuân thủ chặt chẽ đặc tả Prototype v0.1:
+# Tuân thủ chặt chẽ đặc tả Prototype v0.1 & v0.1.2A:
 # - Nút 1: "Về nhà — Miễn phí" (Hoạt động, hồi sinh tại spawn đầu map)
 # - Nút 2: "Hồi sinh tại chỗ — Chưa mở" (Khóa vĩnh viễn, Cần hệ thống Vàng)
 
@@ -16,8 +16,10 @@ var is_requesting: bool = false
 
 func _ready() -> void:
 	visible = false
-	btn_here.disabled = true
-	btn_home.pressed.connect(_on_btn_home_pressed)
+	if btn_here:
+		btn_here.disabled = true
+	if btn_home:
+		btn_home.pressed.connect(_on_btn_home_pressed)
 
 func open_panel() -> void:
 	visible = true
@@ -39,7 +41,8 @@ func _on_btn_home_pressed() -> void:
 	if is_requesting:
 		return
 	is_requesting = true
-	btn_home.disabled = true
+	if btn_home:
+		btn_home.disabled = true
 	if status_lbl:
 		status_lbl.text = "Đang gửi yêu cầu hồi sinh tới máy chủ..."
 	

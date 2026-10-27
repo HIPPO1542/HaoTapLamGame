@@ -51,6 +51,7 @@ var input_sequence: int = 0
 var is_attacking: bool = false
 var attack_anim_timer: float = 0.0
 var client_attack_cd: float = 0.0
+var hurt_anim_timer: float = 0.0
 
 func _ready() -> void:
 	target_position = global_position
@@ -117,11 +118,16 @@ func _server_physics_process(delta: float) -> void:
 	global_position.x = clamp(global_position.x, 20.0, 2540.0)
 
 	# 6. Animation
+	if hurt_anim_timer > 0.0:
+		hurt_anim_timer -= delta
+
 	if is_attacking:
 		current_anim = "attack"
 		attack_anim_timer -= delta
 		if attack_anim_timer <= 0.0:
 			is_attacking = false
+	elif hurt_anim_timer > 0.0:
+		current_anim = "hurt"
 	elif not is_on_floor():
 		current_anim = "jump"
 	elif abs(velocity.x) > 5.0:
@@ -140,6 +146,9 @@ func take_monster_damage(dmg: int) -> void:
 	print("[Server] M1 nhận %d sát thương từ quái. HP còn lại: %d/%d" % [dmg, current_hp, max_hp])
 	if current_hp <= 0:
 		_on_player_died_on_server()
+	else:
+		hurt_anim_timer = 0.25
+		current_anim = "hurt"
 
 # Chuyển trạng thái DEAD_WAITING_CHOICE trên Server (không tự hồi sinh)
 func _on_player_died_on_server() -> void:
@@ -150,6 +159,7 @@ func _on_player_died_on_server() -> void:
 	velocity = Vector2.ZERO
 	is_attacking = false
 	attack_cooldown_timer = 0.0
+	hurt_anim_timer = 0.0
 	current_anim = "idle"
 	print("[Server] M1 tử nạn tại %s! Chuyển trạng thái DEAD_WAITING_CHOICE (Chờ người chơi chọn Về Nhà, không tự hồi sinh)." % str(death_position))
 
@@ -178,6 +188,7 @@ func handle_respawn_home_request(request_id: String) -> Dictionary:
 	death_position = Vector2.ZERO
 	attack_cooldown_timer = 0.0
 	is_attacking = false
+	hurt_anim_timer = 0.0
 	current_anim = "idle"
 	
 	print("[Server] M1 đã hồi sinh VỀ NHÀ tại %s với đầy đủ %d HP / %d KI (không trừ điểm)." % [str(spawn_point), max_hp, max_ki])
@@ -218,7 +229,7 @@ func handle_attack_request(request_id: String, mobs: Array) -> void:
 	current_ki -= GameConfig.SKILL_1_KI_COST
 	attack_cooldown_timer = GameConfig.SKILL_1_COOLDOWN
 	is_attacking = true
-	attack_anim_timer = 0.3
+	attack_anim_timer = 0.38
 
 	# Tìm Slime sống trong tầm phía trước mặt (48 px)
 	var hit_mob = null
@@ -318,8 +329,17 @@ func _client_physics_process(delta: float) -> void:
 	# 4. Cập nhật sprite & hướng
 	if sprite:
 		sprite.flip_h = not facing_right
-		if sprite.animation != current_anim and current_anim != "attack":
-			sprite.play(current_anim)
+		if current_anim == "hurt":
+			if sprite.animation != "hurt":
+				sprite.play("hurt")
+		elif current_anim == "attack":
+			if sprite.animation != "attack":
+				sprite.play("attack")
+		elif sprite.animation == "attack" and sprite.is_playing():
+			pass
+		else:
+			if sprite.animation != current_anim:
+				sprite.play(current_anim)
 
 func apply_server_snapshot(data: Dictionary) -> void:
 	if data.has("pos"):

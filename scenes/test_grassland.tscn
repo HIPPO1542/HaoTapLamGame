@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://grassland000001"]
+[gd_scene load_steps=10 format=3 uid="uid://grassland000001"]
 
-[ext_resource type="Texture2D" path="res://assets/environment/grassland_bg.png" id="1_bg"]
-[ext_resource type="Texture2D" path="res://assets/environment/ground_tile.png" id="2_ground"]
+[ext_resource type="Texture2D" path="res://assets/environment/bg_sky.png" id="1_sky"]
+[ext_resource type="Texture2D" path="res://assets/environment/bg_far_mountains.png" id="2_mountains"]
+[ext_resource type="Texture2D" path="res://assets/environment/bg_mid_hills.png" id="3_hills"]
+[ext_resource type="Texture2D" path="res://assets/environment/bg_near_trees.png" id="4_trees"]
+[ext_resource type="Texture2D" path="res://assets/environment/bg_ground_platform.png" id="5_ground"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2560, 140)
@@ -14,9 +17,54 @@ size = Vector2(2560, 20)
 
 [node name="TestGrassland" type="Node2D"]
 
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(1280, 360)
-texture = ExtResource("1_bg")
+[node name="ParallaxSky" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0, 0)
+repeat_size = Vector2(1920, 0)
+repeat_times = 2
+
+[node name="SkySprite" type="Sprite2D" parent="ParallaxSky"]
+texture_filter = 2
+texture = ExtResource("1_sky")
+centered = false
+
+[node name="ParallaxMountains" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.15, 0.05)
+repeat_size = Vector2(1920, 0)
+repeat_times = 2
+
+[node name="MountainsSprite" type="Sprite2D" parent="ParallaxMountains"]
+texture_filter = 2
+position = Vector2(0, 180)
+texture = ExtResource("2_mountains")
+centered = false
+
+[node name="ParallaxHills" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.35, 0.1)
+repeat_size = Vector2(1920, 0)
+repeat_times = 2
+
+[node name="HillsSprite" type="Sprite2D" parent="ParallaxHills"]
+texture_filter = 2
+position = Vector2(0, 260)
+texture = ExtResource("3_hills")
+centered = false
+
+[node name="ParallaxTrees" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.65, 0.2)
+repeat_size = Vector2(2560, 0)
+repeat_times = 2
+
+[node name="TreesSprite" type="Sprite2D" parent="ParallaxTrees"]
+texture_filter = 2
+position = Vector2(0, 100)
+texture = ExtResource("4_trees")
+centered = false
+
+[node name="GroundVisual" type="Sprite2D" parent="."]
+texture_filter = 2
+position = Vector2(0, 580)
+texture = ExtResource("5_ground")
+centered = false
 
 [node name="StaticColliders" type="StaticBody2D" parent="."]
 collision_mask = 0
@@ -36,13 +84,6 @@ shape = SubResource("RectangleShape2D_wall")
 [node name="CeilingCollision" type="CollisionShape2D" parent="StaticColliders"]
 position = Vector2(1280, -10)
 shape = SubResource("RectangleShape2D_ceiling")
-
-[node name="GroundVisual" type="TextureRect" parent="."]
-offset_top = 580.0
-offset_right = 2560.0
-offset_bottom = 720.0
-texture = ExtResource("2_ground")
-stretch_mode = 1
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(160, 580)

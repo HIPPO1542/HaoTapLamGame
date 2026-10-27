@@ -1,0 +1,18 @@
+# Godot 4 engine cache and exported files
+.godot/
+*.translation
+
+# User save and test backup files
+user_backup_player_save.json
+saves/
+*.tmp
+*.bak
+tests/temp_saves/
+
+# Engine binaries
+godot.exe
+godot_console.exe
+
+# Environment & logs
+.env
+*.log
